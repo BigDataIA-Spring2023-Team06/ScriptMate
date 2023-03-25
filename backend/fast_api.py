@@ -23,6 +23,17 @@ def send_query(query: str):
 
 
 
+@app.get('/generate_fictional_character')
+def generate_fictional_character(prompt: str):
+    response = openai.Image.create(
+        prompt="Create a fictional character " + prompt,
+        n=1, 
+        size = "512x512"
+    )
+    return {"character": response['data'][0]['url']}
+
+
+
 
 
 
