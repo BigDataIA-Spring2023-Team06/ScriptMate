@@ -1,4 +1,7 @@
+
+venv/
 frontend/venv_fe
 backend/venv_be
 __pycache__
+
 

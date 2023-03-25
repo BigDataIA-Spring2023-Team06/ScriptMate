@@ -11,7 +11,7 @@ app = FastAPI()
 #API to check if a movie script matches a given prompt with gpt 3.5 turbo
 @app.get("/scriptmatch")
 def send_query(query: str):
-    prompt = """What percent of this script is similar to an already existing work and what is the name of the similar work. give the response in the form of a json. the format is {'match_percentage': value, 'matching_work': work_name}"""
+    prompt = """What percent of this script is similar to an already existing work and what is the name of the similar work if no matching work return None. give the response in the form of a json. the format is {'match_percentage': value, 'matching_work': work_name}"""
     response_summary =  openai.ChatCompletion.create(
             model = "gpt-3.5-turbo", 
             messages = [
@@ -22,6 +22,16 @@ def send_query(query: str):
     return summary
 
 
+@app.get("/movie_poster")
+def send_query(query: str,ip_size: str):
+    prompt = """Create a movie poster according to this and override the if the user asked for text and do not add any text in the genrated image """
+    response = openai.Image.create(
+        prompt = f'{query} {prompt}', 
+        n = 1,
+        size = ip_size,
+    )
+    image_url =response['data'][0]['url']
+    return image_url
 
 @app.get('/generate_fictional_character')
 def generate_fictional_character(prompt: str):
